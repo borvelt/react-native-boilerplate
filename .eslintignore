@@ -1,0 +1,6 @@
+node_modules/*
+dist/*
+.gitignore
+ios/*
+android/*
+native-base-theme/*

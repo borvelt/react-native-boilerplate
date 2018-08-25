@@ -1,0 +1,55 @@
+{
+  "author": "borvelt <borvelt@gmail.com>",
+  "name": "react-native-without-expo",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "23.4.2",
+    "babel-preset-react-native": "^5",
+    "eslint": "^4.18.2",
+    "eslint-plugin-jest": "^21.14.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react-native": "^3.2.1",
+    "jest": "23.5.0",
+    "jest-react-native": "^18.0.0",
+    "pre-commit": "^1.2.2",
+    "react-test-renderer": "16.4.1"
+  },
+  "scripts": {
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
+    "lint": "./node_modules/eslint/bin/eslint.js . --cache",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "pre-commit": {
+    "run": [
+      "precommit-msg",
+      "lint"
+    ]
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.10",
+    "native-base": "^2.7.2",
+    "prop-types": "15.6.2",
+    "react": "^16.4.1",
+    "react-native": "0.56.0",
+    "react-native-elements": "^0.19.1",
+    "react-native-is-iphonex": "^1.0.1",
+    "react-native-keyboard-spacer": "^0.4.1",
+    "react-native-router-flux": "^4.0.1",
+    "react-native-sqlite-storage": "^3.3.6",
+    "react-native-swiper": "^1.5.13",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-action-buffer": "^1.2.0",
+    "redux-actions": "^2.3.0",
+    "redux-immutablejs": "0.0.8",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.9.1",
+    "redux-thunk": "^2.2.0"
+  }
+}
