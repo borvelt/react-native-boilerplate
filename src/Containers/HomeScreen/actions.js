@@ -1,11 +1,5 @@
-import {
-  Action,
-  DefaultStates,
-} from '../../Store'
-import {
-  SEARCHBAR_CHANGE,
-  SEARCHBAR_TYPING,
-} from '../../Constants'
+import { Action, DefaultStates } from '../../Store'
+import { SEARCHBAR_CHANGE, SEARCHBAR_TYPING } from '../../Constants'
 
 DefaultStates({
   searchBar: {
@@ -13,6 +7,7 @@ DefaultStates({
     isTyping: false,
   },
 })
+
 Action({
   name: SEARCHBAR_CHANGE,
   onSucceed: action => ({

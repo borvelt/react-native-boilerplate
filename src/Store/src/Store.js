@@ -1,6 +1,4 @@
-import {
-  createStore,
-} from 'redux'
+import { createStore } from 'redux'
 import composedEnhacers from './Enhancers'
 
 const Store = createStore(() => ({}), composedEnhacers)

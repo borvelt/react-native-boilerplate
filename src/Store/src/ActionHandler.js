@@ -1,17 +1,11 @@
 import React from 'react'
 import merge from 'lodash/mergeWith'
 import PropTypes from 'prop-types'
-import {
-  handleActions,
-} from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import Store from './Store'
 import ActionSelector from './ActionSelector'
-import {
-  DEFAULT_ACTION_LISTENER,
-} from './../../Constants'
-import {
-  mergeCustomizer,
-} from '../../Utils'
+import { DEFAULT_ACTION_LISTENER } from './../../Constants'
+import { mergeCustomizer } from '../../Utils'
 
 const _ActionHandler = handler => {
   Object.keys(handler).map(key => {
@@ -37,10 +31,13 @@ class ActionHandler extends React.Component {
     if ('actionName' in this.props) {
       this._setHandler(this.props.actionName, this.props.onHappening)
     } else {
-      if (this.listeners.find(element => (element in this.props))) {
+      if (this.listeners.find(element => element in this.props)) {
         this._getListener()
       } else {
-        this._setHandler(this._getActionName(this.props.name), this.props.onHappening)
+        this._setHandler(
+          this._getActionName(this.props.name),
+          this.props.onHappening,
+        )
       }
     }
   }
@@ -57,13 +54,15 @@ class ActionHandler extends React.Component {
   }
 
   _getActionName(name, on = DEFAULT_ACTION_LISTENER) {
-    return ('actionName' in this.props) ?
-      this.props.actionName : ActionSelector(name)[on]
+    return 'actionName' in this.props
+      ? this.props.actionName
+      : ActionSelector(name)[on]
   }
 
   _setHandler(selectedAction, onHappening = () => {}) {
     _ActionHandler({
-      [selectedAction]: (state, action) => (merge({}, state, onHappening(action, state), mergeCustomizer)),
+      [selectedAction]: (state, action) =>
+        merge({}, state, onHappening(action, state), mergeCustomizer),
     })
   }
 
@@ -84,8 +83,17 @@ ActionHandler.propTypes = {
     }
   },
   onSucceed: props => {
-    if (!props.onHappening && !props.onSucceed && !props.onStarted && !props.onFailed && !props.onEnded || (props.onSucceed && typeof props.onSucceed !== 'function')) {
-      throw new Error('One of props ["onSucceed", "onStarted", "onFailed", "onEnded"] is required.')
+    if (
+      (!props.onHappening &&
+        !props.onSucceed &&
+        !props.onStarted &&
+        !props.onFailed &&
+        !props.onEnded) ||
+      (props.onSucceed && typeof props.onSucceed !== 'function')
+    ) {
+      throw new Error(
+        'One of props ["onSucceed", "onStarted", "onFailed", "onEnded"] is required.',
+      )
     }
   },
   name: props => {

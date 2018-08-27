@@ -1,65 +1,51 @@
-import React, {
-  Component,
-} from 'react'
-import {
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native'
-import {
-  connect,
-} from 'react-redux'
-import {
-  View,
-  Button,
-  Text,
-  Icon,
-} from 'native-base'
-import {
-  Actions,
-} from 'react-native-router-flux'
-import {
-  ActionSelector,
-} from '../../../Store'
-import {
-  SEARCHBAR_CHANGE,
-} from '../../../Constants'
+import React, { Component } from 'react'
+import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
+import { View, Button, Text, Icon } from 'native-base'
+import { Actions } from 'react-native-router-flux'
+import { ActionSelector } from '../../../Store'
+import { SEARCHBAR_CHANGE } from '../../../Constants'
 import Modal from '../../../Components/Modal'
 import nativeBaseTheme from '../../../../native-base-theme/variables/material'
 
-const {
-  width,
-  height,
-} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 class ObstacleHiringModal extends Component {
-
   constructor(props) {
     super(props)
   }
 
   render() {
-    return (<Modal>
-      <View flex={1} style={styles.modalView}>
-        <TouchableOpacity onPress={this.props.setSearchBarValue.bind(this, this.props.data.chapter)}>
-          <View style={styles.chapterBox}>
-            <Text style={styles.chapterBoxText}>{this.props.data.chapter}</Text>
+    return (
+      <Modal>
+        <View flex={1} style={styles.modalView}>
+          <TouchableOpacity
+            onPress={this.props.setSearchBarValue.bind(
+              this,
+              this.props.data.chapter,
+            )}>
+            <View style={styles.chapterBox}>
+              <Text style={styles.chapterBoxText}>
+                {this.props.data.chapter}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.descriptionBox}>
+            <Text style={styles.descriptionBoxText}>
+              {this.props.data.description}
+            </Text>
           </View>
-        </TouchableOpacity>
-        <View style={styles.descriptionBox}>
-          <Text style={styles.descriptionBoxText}>{this.props.data.description}</Text>
+          <View style={styles.actionsBox}>
+            <Button iconLeft light onPress={Actions.pop}>
+              <Icon name="close" />
+              <Text>Close</Text>
+            </Button>
+          </View>
         </View>
-        <View style={styles.actionsBox}>
-          <Button iconLeft light onPress={Actions.pop}>
-            <Icon name='close' />
-            <Text>Close</Text>
-          </Button>
-        </View>
-      </View>
-    </Modal>)
+      </Modal>
+    )
   }
 }
-
 
 const styles = StyleSheet.create({
   modalView: {
@@ -99,9 +85,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect(undefined, dispatch => ({
-  setSearchBarValue(text) {
-    dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
-    Actions.pop()
-  },
-}))(ObstacleHiringModal)
+export default connect(
+  undefined,
+  dispatch => ({
+    setSearchBarValue(text) {
+      dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
+      Actions.pop()
+    },
+  }),
+)(ObstacleHiringModal)

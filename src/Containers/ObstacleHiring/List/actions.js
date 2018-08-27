@@ -5,65 +5,14 @@ import {
   ActionHandler,
   ActionSelector,
 } from '../../../Store'
-import fixure from './fixture.json'
-import {
-  OBSTACLE_HIRING_TABLE_DROP,
-  OBSTACLE_HIRING_TABLE_CREATE,
-  SEARCHBAR_CHANGE,
-  OBSTACLE_HIRING_RETRIEVE,
-  OBSTACLE_HIRING_INITIALIZE,
-} from '../../../Constants'
-import Model, {
-  DropSchema,
-  CreateSchema,
-} from './model'
+import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
+import Model from '../model'
 
 DefaultStates({
-  db: {
-    isReady: false,
-    dropped: false,
-    created: false,
-    initialized: false,
-  },
   obstacleHiring: {
     asking: false,
     list: [],
-    selfRetrieve: false,
   },
-})
-
-Action({
-  async: true,
-  selfDispatch: true,
-  name: OBSTACLE_HIRING_TABLE_DROP,
-  onDispatch: DropSchema,
-  onEnded: () => ({
-    db: {
-      isReady: true,
-      dropped: true,
-    },
-  }),
-})
-
-Action({
-  async: true,
-  selfDispatch: true,
-  name: OBSTACLE_HIRING_TABLE_CREATE,
-  onDispatch: CreateSchema,
-  onStarted: () => ({
-    db: {
-      isReady: false,
-    },
-  }),
-  onSucceed: action => ({
-    db: action.payload,
-  }),
-  onEnded: () => ({
-    db: {
-      isReady: true,
-      created: true,
-    },
-  }),
 })
 
 ActionHandler({
@@ -78,15 +27,19 @@ ActionHandler({
 Action({
   async: true,
   name: OBSTACLE_HIRING_RETRIEVE,
-  onDispatch: Model.search,
+  onDispatch: text => {
+    let conditions
+    if (text.length) {
+      conditions = `chapter LIKE '*${text}*' OR description LIKE '*${text}*' OR segment LIKE '*${text}*' SORT(chapter ASC)`
+    } else {
+      conditions = 'chapter LIKE "**" SORT(chapter ASC) DISTINCT(chapter)'
+    }
+    return new Model().fetch(conditions)
+  },
   onStarted: () => ({
-    db: {
-      isReady: false,
-    },
     obstacleHiring: {
       loading: true,
       asking: false,
-      selfRetrieve: true,
     },
   }),
   onSucceed: action => ({
@@ -95,39 +48,8 @@ Action({
     },
   }),
   onEnded: () => ({
-    db: {
-      isReady: true,
-    },
     obstacleHiring: {
       loading: false,
-    },
-  }),
-})
-
-Action({
-  async: true,
-  name: OBSTACLE_HIRING_INITIALIZE,
-  onDispatch: () => {
-    let allPromises = []
-    for (let index in fixure) {
-      for (let indx in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-        fixure[index].segment = indx
-        fixure[index].description = `this is description of ${fixure[index].chapter} and number ${indx}`
-        let sample = new Model(fixure[index])
-        allPromises.push(sample.save())
-      }
-    }
-    return Promise.all(allPromises)
-  },
-  onStarted: () => ({
-    db: {
-      isReady: false,
-    },
-  }),
-  onSucceed: () => ({
-    db: {
-      isReady: true,
-      intialized: true,
     },
   }),
 })
@@ -135,13 +57,7 @@ Action({
 Store.subscribe(() => {
   const state = Store.getState()
   const dispatch = Store.dispatch
-  if (state.obstacleHiring.asking && state.db.isReady) {
+  if (state.obstacleHiring.asking) {
     dispatch(ActionSelector(OBSTACLE_HIRING_RETRIEVE)(state.searchBar.value))
-  }
-  if (state.db.isReady && state.db.created && !state.db.intialized) {
-    dispatch(ActionSelector(OBSTACLE_HIRING_INITIALIZE)())
-  }
-  if(state.db.isReady && state.db.intialized && !state.obstacleHiring.selfRetrieve) {
-    dispatch(ActionSelector(OBSTACLE_HIRING_RETRIEVE)(''))
   }
 })

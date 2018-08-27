@@ -1,27 +1,12 @@
 import React from 'react'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import groupBy from 'lodash/groupBy'
-import {
-  Actions,
-} from 'react-native-router-flux'
-import {
-  FlatList,
-  StyleSheet,
-} from 'react-native'
-import {
-  connect,
-} from 'react-redux'
-import {
-  ListItem,
-  Text,
-  View,
-} from 'native-base'
-import {
-  ActionSelector,
-} from '../../../Store'
-import {
-  SEARCHBAR_CHANGE,
-} from '../../../Constants'
+import { Actions } from 'react-native-router-flux'
+import { FlatList, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
+import { ListItem, Text, View } from 'native-base'
+import { ActionSelector } from '../../../Store'
+import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
 import './actions'
 
 const Styles = StyleSheet.create({
@@ -37,6 +22,7 @@ class ObstacleHiringList extends React.PureComponent {
     super(props)
     this._renderListItem = this._renderListItem.bind(this)
     this._renderGroupsItem = this._renderGroupsItem.bind(this)
+    this.props.initialRetrieve()
   }
 
   _prepareData() {
@@ -51,7 +37,7 @@ class ObstacleHiringList extends React.PureComponent {
       if (indx === 0) {
         return 0
       }
-      return index = val.length + index
+      return (index = val.length + index)
     })
   }
 
@@ -65,10 +51,11 @@ class ObstacleHiringList extends React.PureComponent {
       renderItem = this._renderGroupsItem
     }
     return (
-      <View style={Styles.ListContainer} >
-        <FlatList data={this.props.data} 
+      <View style={Styles.ListContainer}>
+        <FlatList
+          data={this.props.data}
           keyboardShouldPersistTaps={'handled'}
-          keyExtractor={item => `${item.id}`} 
+          keyExtractor={item => `${item.id}`}
           renderItem={renderItem}
         />
         <KeyboardSpacer />
@@ -76,13 +63,17 @@ class ObstacleHiringList extends React.PureComponent {
     )
   }
 
-  _renderListItem({
-    item,
-    index,
-  }) {
+  _renderListItem({ item, index }) {
     let renderSeparator = null
-    if (typeof this.listseparatorIndex.find(elm => elm === index) !== typeof undefined) {
-      renderSeparator = <ListItem itemDivider><Text>{item.chapter}</Text></ListItem>
+    if (
+      typeof this.listseparatorIndex.find(elm => elm === index) !==
+      typeof undefined
+    ) {
+      renderSeparator = (
+        <ListItem itemDivider>
+          <Text>{item.chapter}</Text>
+        </ListItem>
+      )
     }
     return (
       <React.Fragment>
@@ -94,12 +85,12 @@ class ObstacleHiringList extends React.PureComponent {
     )
   }
 
-  _renderGroupsItem({
-    item,
-  }) {
-    return <ListItem onPress={this._listGroupOnPress.bind(this, item)}>
-      <Text>{item.chapter}</Text>
-    </ListItem>
+  _renderGroupsItem({ item }) {
+    return (
+      <ListItem onPress={this._listGroupOnPress.bind(this, item)}>
+        <Text>{item.chapter}</Text>
+      </ListItem>
+    )
   }
 
   _listItemOnPress(item) {
@@ -109,16 +100,22 @@ class ObstacleHiringList extends React.PureComponent {
   }
 
   _listGroupOnPress(item) {
+    // setTimeout(() => this.props.setSearchBarValue(item.chapter), 115)
     this.props.setSearchBarValue(item.chapter)
   }
-
 }
 
-export default connect(state => ({
-  data: state.obstacleHiring.list,
-  searchBarValue: state.searchBar.value,
-}), dispatch => ({
-  setSearchBarValue(text) {
-    dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
-  },
-}))(ObstacleHiringList)
+export default connect(
+  state => ({
+    data: state.obstacleHiring.list,
+    searchBarValue: state.searchBar.value,
+  }),
+  dispatch => ({
+    initialRetrieve() {
+      dispatch(ActionSelector(OBSTACLE_HIRING_RETRIEVE)(''))
+    },
+    setSearchBarValue(text) {
+      dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
+    },
+  }),
+)(ObstacleHiringList)

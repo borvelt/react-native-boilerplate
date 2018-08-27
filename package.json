@@ -14,9 +14,14 @@
     "jest": "23.5.0",
     "jest-react-native": "^18.0.0",
     "pre-commit": "^1.2.2",
-    "react-test-renderer": "16.4.1"
+    "react-devtools": "^3.2.3",
+    "react-test-renderer": "16.4.1",
+    "remote-redux-devtools": "^0.5.13",
+    "remotedev-server": "^0.2.5"
   },
   "scripts": {
+    "redux-devtool": "remotedev",
+    "react-devtool": "react-devtools",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
     "lint": "./node_modules/eslint/bin/eslint.js . --cache",
     "test": "node node_modules/jest/bin/jest.js"
@@ -41,14 +46,13 @@
     "react-native-is-iphonex": "^1.0.1",
     "react-native-keyboard-spacer": "^0.4.1",
     "react-native-router-flux": "^4.0.1",
-    "react-native-sqlite-storage": "^3.3.6",
     "react-native-swiper": "^1.5.13",
     "react-redux": "^5.0.7",
+    "realm": "^2.15.3",
     "redux": "^3.7.2",
     "redux-action-buffer": "^1.2.0",
     "redux-actions": "^2.3.0",
     "redux-immutablejs": "0.0.8",
-    "redux-logger": "^3.0.6",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0"
   }

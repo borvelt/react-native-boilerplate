@@ -1,15 +1,7 @@
-import React, {
-  Component,
-} from 'react'
-import {
-  StyleSheet,
-} from 'react-native'
-import {
-  Input,
-} from 'native-base'
-import {
-  WAIT_INTERVAL,
-} from '../Constants'
+import React, { Component } from 'react'
+import { StyleSheet } from 'react-native'
+import { Input } from 'native-base'
+import { WAIT_INTERVAL } from '../Constants'
 
 const Styles = StyleSheet.create({
   searchInput: {
@@ -26,13 +18,16 @@ class InputWithIsTyping extends Component {
   }
 
   render() {
-    return (<Input value={this.props.value}
-      style={Styles.searchInput}
-      placeholder="جستجو"
-      direction='rtl'
-      onChangeText={this._onChangeText} 
-      ref={ref=>this._input = ref}
-    />)
+    return (
+      <Input
+        value={this.props.value}
+        style={Styles.searchInput}
+        placeholder="جستجو"
+        direction="rtl"
+        onChangeText={this._onChangeText}
+        ref={ref => (this._input = ref)}
+      />
+    )
   }
 
   _onChangeText(text) {
@@ -43,6 +38,6 @@ class InputWithIsTyping extends Component {
       this.props.onChange(text)
     }, WAIT_INTERVAL)
   }
-
 }
+
 export default InputWithIsTyping

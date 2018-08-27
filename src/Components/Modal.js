@@ -1,32 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-} from 'react-native'
-import {
-  WHITE,
-} from '../Constants'
+import { View, StyleSheet, Dimensions } from 'react-native'
+import { WHITE } from '../Constants'
 
-const {
-  height: deviceHeight,
-  width: deviceWidth,
-} = Dimensions.get('window')
+const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window')
 
-const Modal = ({
-  children,
-  verticalPercent,
-  horizontalPercent,
-}) => {
+const Modal = ({ children, verticalPercent, horizontalPercent }) => {
   const height = verticalPercent ? deviceHeight * verticalPercent : deviceHeight
-  const width = horizontalPercent ? deviceHeight * horizontalPercent : deviceWidth
+  const width = horizontalPercent
+    ? deviceHeight * horizontalPercent
+    : deviceWidth
 
-  return (
-    <View style={[styles.container, { height, width }]}>
-      {children}
-    </View>
-  )
+  return <View style={[styles.container, { height, width }]}>{children}</View>
 }
 
 Modal.propTypes = {

@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  DEFAULT_STATE_SET,
-} from '../../Constants'
+import { DEFAULT_STATE_SET } from '../../Constants'
 import Action from './Action'
 
 class DefaultStates extends React.Component {
@@ -18,7 +16,6 @@ class DefaultStates extends React.Component {
   render() {
     return null
   }
-
 }
 
 export default DefaultStates

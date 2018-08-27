@@ -21,7 +21,6 @@ class Action extends React.Component {
       Store.dispatch(ActionSelector(this.props.name)(this.props.onDispatchArgs))
     }
   }
-
 }
 
 export default Action

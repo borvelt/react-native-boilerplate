@@ -1,30 +1,48 @@
 import React from 'react'
-import {
-  createAction,
-} from 'redux-actions'
+import { createAction } from 'redux-actions'
 import Store from './Store'
 import PropTypes from 'prop-types'
 import ActionSelector from './ActionSelector'
 
-const _ActionCreator = (TYPE, onDispatch = (...args) => {
-  args.pop()
-  args.pop()
-  return args[0]
-}, options = {
-  async: false,
-  payloadCreator: undefined,
-  metaCreator: undefined,
-}) => {
+const _ActionCreator = (
+  TYPE,
+  onDispatch = (...args) => {
+    args.pop()
+    args.pop()
+    return args[0]
+  },
+  options = {
+    async: false,
+    payloadCreator: undefined,
+    metaCreator: undefined,
+  },
+) => {
   const TYPE_STARTED = TYPE + '_STARTED'
   const TYPE_FAILED = TYPE + '_FAILED'
   const TYPE_SUCCEED = TYPE + '_SUCCEED'
   const TYPE_ENDED = TYPE + '_ENDED'
 
   const actionCreators = {
-    [TYPE_STARTED]: createAction(TYPE_STARTED, options.payloadCreator, options.metaCreator),
-    [TYPE_FAILED]: createAction(TYPE_FAILED, options.payloadCreator, options.metaCreator),
-    [TYPE_SUCCEED]: createAction(TYPE_SUCCEED, options.payloadCreator, options.metaCreator),
-    [TYPE_ENDED]: createAction(TYPE_ENDED, options.payloadCreator, options.metaCreator),
+    [TYPE_STARTED]: createAction(
+      TYPE_STARTED,
+      options.payloadCreator,
+      options.metaCreator,
+    ),
+    [TYPE_FAILED]: createAction(
+      TYPE_FAILED,
+      options.payloadCreator,
+      options.metaCreator,
+    ),
+    [TYPE_SUCCEED]: createAction(
+      TYPE_SUCCEED,
+      options.payloadCreator,
+      options.metaCreator,
+    ),
+    [TYPE_ENDED]: createAction(
+      TYPE_ENDED,
+      options.payloadCreator,
+      options.metaCreator,
+    ),
   }
 
   const payload = {
@@ -38,25 +56,31 @@ const _ActionCreator = (TYPE, onDispatch = (...args) => {
   function createAsync(...args) {
     return async (dispatch, getState) => {
       let result
-      const startedAt = (new Date()).getTime()
-      dispatch(actionCreators[TYPE_STARTED]({
-        startedAt,
-        ...args,
-      }))
+      const startedAt = new Date().getTime()
+      dispatch(
+        actionCreators[TYPE_STARTED]({
+          startedAt,
+          ...args,
+        }),
+      )
       try {
         result = await onDispatch(...args, dispatch, getState)
         dispatch(actionCreators[TYPE_SUCCEED](result))
       } catch (error) {
-        dispatch(actionCreators[TYPE_FAILED]({
-          errorMessage: error.message,
-        }))
+        dispatch(
+          actionCreators[TYPE_FAILED]({
+            errorMessage: error.message,
+          }),
+        )
         throw error
       }
-      let endedAt = (new Date()).getTime()
-      dispatch(actionCreators[TYPE_ENDED]({
-        endedAt: endedAt,
-        elapsed: endedAt - startedAt,
-      }))
+      let endedAt = new Date().getTime()
+      dispatch(
+        actionCreators[TYPE_ENDED]({
+          endedAt: endedAt,
+          elapsed: endedAt - startedAt,
+        }),
+      )
       return result
     }
   }
@@ -68,9 +92,11 @@ const _ActionCreator = (TYPE, onDispatch = (...args) => {
         result = onDispatch(...args, dispatch, getState)
         dispatch(actionCreators[TYPE_SUCCEED](result))
       } catch (error) {
-        dispatch(actionCreators[TYPE_FAILED]({
-          errorMessage: error.message,
-        }))
+        dispatch(
+          actionCreators[TYPE_FAILED]({
+            errorMessage: error.message,
+          }),
+        )
         throw error
       }
       return result
@@ -84,7 +110,6 @@ const _ActionCreator = (TYPE, onDispatch = (...args) => {
   Object.assign(create, payload)
   Store.Actions[TYPE] = create
   return create
-
 }
 
 class ActionCreator extends React.Component {
