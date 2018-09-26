@@ -45,12 +45,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.reactnativewithoutexpo",
+    package = "com.react-native-without-expo",
 )
 
 android_resource(
     name = "res",
-    package = "com.reactnativewithoutexpo",
+    package = "com.react-native-without-expo",
     res = "src/main/res",
 )
 

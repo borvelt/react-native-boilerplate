@@ -1,4 +1,4 @@
-rootProject.name = 'reactNativeWithoutExpo'
+rootProject.name = 'react-native-without-expo'
 include ':realm'
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 
