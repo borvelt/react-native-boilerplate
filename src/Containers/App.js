@@ -3,7 +3,7 @@ import getTheme from '../../native-base-theme/components'
 import color from '../../native-base-theme/variables/material'
 import { Provider } from 'react-redux'
 import { StyleProvider, Text } from 'native-base'
-import { Store } from '../Store'
+import { store } from '../Store'
 import RouterStack from '../Router'
 import ObstacleHiringFixture from './ObstacleHiring/fixture'
 
@@ -29,7 +29,7 @@ class App extends Component {
     }
     return (
       <StyleProvider style={getTheme(color)}>
-        <Provider store={Store}>
+        <Provider store={store}>
           <RouterStack />
         </Provider>
       </StyleProvider>

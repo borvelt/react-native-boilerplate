@@ -4,7 +4,7 @@ import { Header, Item, Icon, Container } from 'native-base'
 import { connect } from 'react-redux'
 import InputWithIsTyping from '../../Components/InputWithIsTyping'
 import { SEARCHBAR_TYPING, SEARCHBAR_CHANGE } from '../../Constants'
-import { ActionSelector } from '../../Store'
+import { Actions } from '../../Store'
 import './actions'
 import ObstacleHiring from '../ObstacleHiring/List'
 
@@ -42,14 +42,14 @@ class HomeScreen extends Component {
 
 export default connect(
   state => ({
-    searchBarValue: state.searchBar.value,
+    searchBarValue: state.searchBar.get('value'),
   }),
   dispatch => ({
     searchBarChanged(text) {
-      dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
+      dispatch(Actions.get(SEARCHBAR_CHANGE)(text))
     },
     searchBarTyping(value) {
-      dispatch(ActionSelector(SEARCHBAR_TYPING)(value))
+      dispatch(Actions.get(SEARCHBAR_TYPING)(value))
     },
   }),
 )(HomeScreen)

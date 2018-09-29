@@ -1,15 +1,14 @@
-import { Action, DefaultStates } from '../../Store'
+import { setState, Actions } from '../../Store'
 import { SEARCHBAR_CHANGE, SEARCHBAR_TYPING } from '../../Constants'
 
-DefaultStates({
+setState({
   searchBar: {
     value: '',
     isTyping: false,
   },
 })
 
-Action({
-  name: SEARCHBAR_CHANGE,
+Actions.create(SEARCHBAR_CHANGE, {
   onSucceed: action => ({
     searchBar: {
       value: action.payload,
@@ -17,8 +16,7 @@ Action({
   }),
 })
 
-Action({
-  name: SEARCHBAR_TYPING,
+Actions.create(SEARCHBAR_TYPING, {
   onSucceed: action => ({
     searchBar: {
       isTyping: action.payload,

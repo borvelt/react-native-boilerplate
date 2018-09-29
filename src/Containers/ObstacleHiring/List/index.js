@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux'
 import { FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Text, View } from 'native-base'
-import { ActionSelector } from '../../../Store'
+import { Actions as StoreActions, States } from '../../../Store'
 import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
 import './actions'
 
@@ -15,7 +15,7 @@ const Styles = StyleSheet.create({
   },
 })
 
-class ObstacleHiringList extends React.PureComponent {
+class ObstacleHiringList extends React.Component {
   listSeparatorIndex = []
 
   constructor(props) {
@@ -39,6 +39,13 @@ class ObstacleHiringList extends React.PureComponent {
       }
       return (index = val.length + index)
     })
+  }
+
+  componentDidMount() {
+    setTimeout(
+      () => console.log(States.obstacleHiring.get('list').toJS()),
+      2000,
+    )
   }
 
   render() {
@@ -100,22 +107,21 @@ class ObstacleHiringList extends React.PureComponent {
   }
 
   _listGroupOnPress(item) {
-    // setTimeout(() => this.props.setSearchBarValue(item.chapter), 115)
     this.props.setSearchBarValue(item.chapter)
   }
 }
 
 export default connect(
   state => ({
-    data: state.obstacleHiring.list,
-    searchBarValue: state.searchBar.value,
+    data: state.obstacleHiring.get('list').toJS(),
+    searchBarValue: state.searchBar.get('value'),
   }),
   dispatch => ({
     initialRetrieve() {
-      dispatch(ActionSelector(OBSTACLE_HIRING_RETRIEVE)(''))
+      dispatch(StoreActions.get(OBSTACLE_HIRING_RETRIEVE)(''))
     },
     setSearchBarValue(text) {
-      dispatch(ActionSelector(SEARCHBAR_CHANGE)(text))
+      dispatch(StoreActions.get(SEARCHBAR_CHANGE)(text))
     },
   }),
 )(ObstacleHiringList)

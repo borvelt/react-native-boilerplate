@@ -1,22 +1,15 @@
-import {
-  Store,
-  DefaultStates,
-  Action,
-  ActionHandler,
-  ActionSelector,
-} from '../../../Store'
+import { setState, Actions, store } from '../../../Store'
 import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
 import Model from '../model'
 
-DefaultStates({
+setState({
   obstacleHiring: {
     asking: false,
     list: [],
   },
 })
 
-ActionHandler({
-  name: SEARCHBAR_CHANGE,
+Actions.handle(SEARCHBAR_CHANGE, {
   onSucceed: () => ({
     obstacleHiring: {
       asking: true,
@@ -24,9 +17,8 @@ ActionHandler({
   }),
 })
 
-Action({
+Actions.new(OBSTACLE_HIRING_RETRIEVE, {
   async: true,
-  name: OBSTACLE_HIRING_RETRIEVE,
   onDispatch: text => {
     let conditions
     if (text.length) {
@@ -54,10 +46,9 @@ Action({
   }),
 })
 
-Store.subscribe(() => {
-  const state = Store.getState()
-  const dispatch = Store.dispatch
-  if (state.obstacleHiring.asking) {
-    dispatch(ActionSelector(OBSTACLE_HIRING_RETRIEVE)(state.searchBar.value))
+store.toReduxStoreObject().subscribe(() => {
+  const dispatch = store.dispatch
+  if (store.state.obstacleHiring.asking) {
+    dispatch(Actions.get(OBSTACLE_HIRING_RETRIEVE)(store.state.searchBar.value))
   }
 })
