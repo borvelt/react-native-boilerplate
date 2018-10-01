@@ -1,12 +1,19 @@
-import storeInstance from 'redux-peach'
+import { Store, State, Action } from 'redux-peach'
+import { createLogger } from 'redux-logger'
 
-storeInstance.configure({
-  rootState: { test: 10 },
-  middlewares: [],
+export const store = new Store()
+
+store.configure({
+  rootState: {},
+  middlewares: [
+    createLogger({
+      stateTransformer: state => state.toImmutableObject().toJS(),
+    }),
+  ],
   enhancers: [],
 })
 
-export const store = storeInstance
-export const Actions = storeInstance.actions
-export const setState = state => (storeInstance.state = state)
-export const States = store.state
+export const setState = newState => State.set(newState, store)
+export const findAction = actionName => Action.find(actionName, store)
+export const newAction = actionName =>
+  new Action().setName(actionName).hookToStore(store)

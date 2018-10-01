@@ -4,7 +4,7 @@ import { Header, Item, Icon, Container } from 'native-base'
 import { connect } from 'react-redux'
 import InputWithIsTyping from '../../Components/InputWithIsTyping'
 import { SEARCHBAR_TYPING, SEARCHBAR_CHANGE } from '../../Constants'
-import { Actions } from '../../Store'
+import { findAction } from '../../Store'
 import './actions'
 import ObstacleHiring from '../ObstacleHiring/List'
 
@@ -46,10 +46,10 @@ export default connect(
   }),
   dispatch => ({
     searchBarChanged(text) {
-      dispatch(Actions.get(SEARCHBAR_CHANGE)(text))
+      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
     },
     searchBarTyping(value) {
-      dispatch(Actions.get(SEARCHBAR_TYPING)(value))
+      dispatch(findAction(SEARCHBAR_TYPING).prepareForDispatch(value))
     },
   }),
 )(HomeScreen)

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux'
 import { FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Text, View } from 'native-base'
-import { Actions as StoreActions, States } from '../../../Store'
+import { findAction } from '../../../Store'
 import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
 import './actions'
 
@@ -39,13 +39,6 @@ class ObstacleHiringList extends React.Component {
       }
       return (index = val.length + index)
     })
-  }
-
-  componentDidMount() {
-    setTimeout(
-      () => console.log(States.obstacleHiring.get('list').toJS()),
-      2000,
-    )
   }
 
   render() {
@@ -118,10 +111,10 @@ export default connect(
   }),
   dispatch => ({
     initialRetrieve() {
-      dispatch(StoreActions.get(OBSTACLE_HIRING_RETRIEVE)(''))
+      dispatch(findAction(OBSTACLE_HIRING_RETRIEVE).prepareForDispatch(''))
     },
     setSearchBarValue(text) {
-      dispatch(StoreActions.get(SEARCHBAR_CHANGE)(text))
+      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
     },
   }),
 )(ObstacleHiringList)

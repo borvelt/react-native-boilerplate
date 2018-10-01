@@ -1,4 +1,4 @@
-import { setState, Actions, store } from '../../../Store'
+import { setState, newAction, findAction, store } from '../../../Store'
 import { SEARCHBAR_CHANGE, OBSTACLE_HIRING_RETRIEVE } from '../../../Constants'
 import Model from '../model'
 
@@ -9,17 +9,17 @@ setState({
   },
 })
 
-Actions.handle(SEARCHBAR_CHANGE, {
-  onSucceed: () => ({
+newAction(SEARCHBAR_CHANGE)
+  .onSucceed(() => ({
     obstacleHiring: {
       asking: true,
     },
-  }),
-})
+  }))
+  .make()
 
-Actions.new(OBSTACLE_HIRING_RETRIEVE, {
-  async: true,
-  onDispatch: text => {
+newAction(OBSTACLE_HIRING_RETRIEVE)
+  .setAsync(true)
+  .setOnDispatchListener(text => {
     let conditions
     if (text.length) {
       conditions = `chapter LIKE '*${text}*' OR description LIKE '*${text}*' OR segment LIKE '*${text}*' SORT(chapter ASC)`
@@ -27,28 +27,31 @@ Actions.new(OBSTACLE_HIRING_RETRIEVE, {
       conditions = 'chapter LIKE "**" SORT(chapter ASC) DISTINCT(chapter)'
     }
     return new Model().fetch(conditions)
-  },
-  onStarted: () => ({
+  })
+  .onStarted(() => ({
     obstacleHiring: {
       loading: true,
       asking: false,
     },
-  }),
-  onSucceed: action => ({
+  }))
+  .onSucceed(action => ({
     obstacleHiring: {
       list: action.payload,
     },
-  }),
-  onEnded: () => ({
+  }))
+  .onEnded(() => ({
     obstacleHiring: {
       loading: false,
     },
-  }),
-})
+  }))
+  .make()
 
-store.toReduxStoreObject().subscribe(() => {
-  const dispatch = store.dispatch
-  if (store.state.obstacleHiring.asking) {
-    dispatch(Actions.get(OBSTACLE_HIRING_RETRIEVE)(store.state.searchBar.value))
+store.subscribe(() => {
+  if (store.state.obstacleHiring.get('asking')) {
+    store.dispatch(
+      findAction(OBSTACLE_HIRING_RETRIEVE).prepareForDispatch(
+        store.state.searchBar.get('value'),
+      ),
+    )
   }
 })

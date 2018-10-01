@@ -1,4 +1,4 @@
-import { setState, Actions } from '../../Store'
+import { newAction, setState } from '../../Store'
 import { SEARCHBAR_CHANGE, SEARCHBAR_TYPING } from '../../Constants'
 
 setState({
@@ -8,18 +8,18 @@ setState({
   },
 })
 
-Actions.create(SEARCHBAR_CHANGE, {
-  onSucceed: action => ({
-    searchBar: {
-      value: action.payload,
-    },
-  }),
-})
-
-Actions.create(SEARCHBAR_TYPING, {
-  onSucceed: action => ({
+newAction(SEARCHBAR_TYPING)
+  .onSucceed(action => ({
     searchBar: {
       isTyping: action.payload,
     },
-  }),
-})
+  }))
+  .make()
+
+newAction(SEARCHBAR_CHANGE)
+  .onSucceed(action => ({
+    searchBar: {
+      value: action.payload,
+    },
+  }))
+  .make()

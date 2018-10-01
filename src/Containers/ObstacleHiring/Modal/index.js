@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { View, Button, Text, Icon } from 'native-base'
 import { Actions } from 'react-native-router-flux'
-import { Actions as StoreAction } from '../../../Store'
+import { findAction } from '../../../Store'
 import { SEARCHBAR_CHANGE } from '../../../Constants'
 import Modal from '../../../Components/Modal'
 import nativeBaseTheme from '../../../../native-base-theme/variables/material'
@@ -89,7 +89,7 @@ export default connect(
   undefined,
   dispatch => ({
     setSearchBarValue(text) {
-      dispatch(StoreAction.get(SEARCHBAR_CHANGE)(text))
+      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
       Actions.pop()
     },
   }),
