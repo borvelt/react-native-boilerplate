@@ -47,10 +47,10 @@ newAction(OBSTACLE_HIRING_RETRIEVE)
   .make()
 
 store.subscribe(() => {
-  if (store.state.obstacleHiring.get('asking')) {
+  if (store.state.obstacleHiring.asking) {
     store.dispatch(
       findAction(OBSTACLE_HIRING_RETRIEVE).prepareForDispatch(
-        store.state.searchBar.get('value'),
+        store.state.searchBar.value,
       ),
     )
   }

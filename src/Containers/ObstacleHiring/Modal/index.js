@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 export default connect(
   undefined,
   dispatch => ({
-    setSearchBarValue(text) {
+    setSearchBarValue: text => {
       dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
       Actions.pop()
     },

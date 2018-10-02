@@ -1,15 +1,9 @@
 import { Store, State, Action } from 'redux-peach'
-import { createLogger } from 'redux-logger'
-
 export const store = new Store()
 
 store.configure({
   rootState: {},
-  middlewares: [
-    createLogger({
-      stateTransformer: state => state.toImmutableObject().toJS(),
-    }),
-  ],
+  middlewares: [],
   enhancers: [],
 })
 

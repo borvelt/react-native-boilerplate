@@ -42,14 +42,12 @@ class HomeScreen extends Component {
 
 export default connect(
   state => ({
-    searchBarValue: state.searchBar.get('value'),
+    searchBarValue: state.searchBar.value,
   }),
   dispatch => ({
-    searchBarChanged(text) {
-      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
-    },
-    searchBarTyping(value) {
-      dispatch(findAction(SEARCHBAR_TYPING).prepareForDispatch(value))
-    },
+    searchBarChanged: text =>
+      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text)),
+    searchBarTyping: value =>
+      dispatch(findAction(SEARCHBAR_TYPING).prepareForDispatch(value)),
   }),
 )(HomeScreen)

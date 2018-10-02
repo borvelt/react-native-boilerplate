@@ -106,15 +106,21 @@ class ObstacleHiringList extends React.Component {
 
 export default connect(
   state => ({
-    data: state.obstacleHiring.get('list').toJS(),
-    searchBarValue: state.searchBar.get('value'),
+    data: state.obstacleHiring.list,
+    searchBarValue: state.searchBar.value,
   }),
   dispatch => ({
-    initialRetrieve() {
-      dispatch(findAction(OBSTACLE_HIRING_RETRIEVE).prepareForDispatch(''))
-    },
-    setSearchBarValue(text) {
-      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text))
-    },
+    initialRetrieve: () =>
+      dispatch(findAction(OBSTACLE_HIRING_RETRIEVE).prepareForDispatch('')),
+    setSearchBarValue: text =>
+      dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text)),
   }),
+  undefined,
+  {
+    pure: true,
+    areStatesEqual: (a, b) => {
+      console.log('a === b', a === b, a.__, b.__)
+      return a === b
+    },
+  },
 )(ObstacleHiringList)
