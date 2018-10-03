@@ -1,22 +1,18 @@
+import { createStore, compose, applyMiddleware } from 'redux'
 import { Store, State, Action } from 'redux-peach'
-import { composeWithDevTools } from 'remote-redux-devtools'
-let debuggWrapper = data => data
-if (__DEV__ === 'NOT_READY') {
-  debuggWrapper = composeWithDevTools({
-    realtime: true,
-    port: 8000,
-  })
-}
-
-export const store = new Store()
-
-store.configure({
-  rootState: {},
-  middlewares: [],
-  enhancers: [],
-  composeEnhancer: debuggWrapper,
-})
-
+const reduxThunk = require('redux-thunk').default
+const reduxStore = createStore(
+  () => new State({}),
+  compose(
+    applyMiddleware(
+      ...[reduxThunk /*and other middlewares*/],
+      ...[
+        /*enhancers*/
+      ],
+    ),
+  ),
+)
+export const store = new Store(reduxStore)
 export const setState = newState => State.set(newState, store)
 export const findAction = actionName => Action.find(actionName, store)
 export const newAction = actionName =>
