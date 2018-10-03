@@ -5,7 +5,7 @@ import { WAIT_INTERVAL } from '../Constants'
 
 const Styles = StyleSheet.create({
   searchInput: {
-    textAlign: 'right',
+    textAlign: 'left',
   },
 })
 
@@ -22,8 +22,7 @@ class InputWithIsTyping extends Component {
       <Input
         value={this.props.value}
         style={Styles.searchInput}
-        placeholder="جستجو"
-        direction="rtl"
+        placeholder="Search"
         onChangeText={this._onChangeText}
         ref={ref => (this._input = ref)}
       />

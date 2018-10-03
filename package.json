@@ -3,23 +3,6 @@
   "name": "react-native-without-expo",
   "version": "1.0.0",
   "private": true,
-  "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "babel-jest": "23.4.2",
-    "babel-preset-react-native": "^5",
-    "eslint": "^4.18.2",
-    "eslint-plugin-jest": "^21.14.0",
-    "eslint-plugin-react": "^7.7.0",
-    "eslint-plugin-react-native": "^3.2.1",
-    "jest": "23.5.0",
-    "jest-react-native": "^18.0.0",
-    "pre-commit": "^1.2.2",
-    "react-devtools": "^3.2.3",
-    "react-test-renderer": "16.4.1",
-    "redux-logger": "^3.0.6",
-    "remote-redux-devtools": "^0.5.13",
-    "remotedev-server": "^0.2.5"
-  },
   "scripts": {
     "redux-devtool": "remotedev",
     "react-devtool": "react-devtools",
@@ -57,5 +40,22 @@
     "redux-peach": "^2.0.1",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "23.4.2",
+    "babel-preset-react-native": "^5",
+    "eslint": "^4.18.2",
+    "eslint-plugin-jest": "^21.14.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react-native": "^3.2.1",
+    "jest": "23.5.0",
+    "jest-react-native": "^18.0.0",
+    "pre-commit": "^1.2.2",
+    "react-devtools": "^3.2.3",
+    "react-test-renderer": "16.4.1",
+    "redux-logger": "^3.0.6",
+    "remote-redux-devtools": "^0.5.13",
+    "remotedev-server": "^0.2.5"
   }
 }
