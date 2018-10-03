@@ -115,12 +115,4 @@ export default connect(
     setSearchBarValue: text =>
       dispatch(findAction(SEARCHBAR_CHANGE).prepareForDispatch(text)),
   }),
-  undefined,
-  {
-    pure: true,
-    areStatesEqual: (a, b) => {
-      console.log('a === b', a === b, a.__, b.__)
-      return a === b
-    },
-  },
 )(ObstacleHiringList)

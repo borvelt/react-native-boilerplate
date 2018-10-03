@@ -25,7 +25,7 @@ $ react-native run-ios
 ```
 #### if you got error with running application remove node_modules directory and then install again.
 
-## Codes Overview 
+## Code Overview
 
 Main part of project is `src` directory, this directory contain main codes of project.
 
